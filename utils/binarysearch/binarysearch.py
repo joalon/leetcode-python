@@ -3,11 +3,17 @@ from typing import List
 
 
 def binarySearch(num: int, numbers: List[int]) -> int:
-    return _binarySearch(num, numbers, 0, len(numbers) - 1)
+    lastIndex = len(numbers) - 1
+    if num < numbers[0] or num > numbers[lastIndex]:
+        return None
+    return _binarySearch(num, numbers, 0, lastIndex)
 
 
 def _binarySearch(num, numbers, left, right):
     mid = int(left + (right - left) / 2)
+
+    if mid == left or mid == right:
+        return None
 
     if numbers[mid] == num:
         return mid
@@ -30,10 +36,13 @@ class Tester(unittest.TestCase):
 
     def testBinarySearch(self):
         testList = list(range(1, 100))
-
         indexOf40 = binarySearch(40, testList)
-
         self.assertEqual(39, indexOf40)
+
+    def testNumberNotInList(self):
+        testList = [1, 2, 3]
+        indexOf10 = binarySearch(10, testList)
+        self.assertEqual(indexOf10, None)
 
 
 if __name__ == "__main__":
